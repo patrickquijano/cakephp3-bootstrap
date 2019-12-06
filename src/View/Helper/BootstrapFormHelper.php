@@ -259,16 +259,18 @@ class BootstrapFormHelper extends FormHelper {
             $text = $options[$inputGroupType];
             $button = null;
         }
-        $inputGroupClass = !empty($class) ? ['inputGroupClass' => $class] : [];
-        $options['templateVars']['preInputGroup'] = $this->templater()->format('preInputGroup', $inputGroupClass);
+        $inputGroupSize = !empty($class) ? ['inputGroupSize' => $class] : [];
+        $options['templateVars']['preInputGroup'] = $this->templater()->format('preInputGroup', $inputGroupSize);
         $options['templateVars']['postInputGroup'] = $this->templater()->format('postInputGroup', []);
         $content = '';
-        if (is_array($text)) {
-            foreach ($text as $t) {
-                $content .= $this->templater()->format('inputGroup', ['text' => $t]);
+        if (!empty($text)) {
+            if (is_array($text)) {
+                foreach ($text as $t) {
+                    $content .= $this->templater()->format('inputGroup', ['text' => $t]);
+                }
+            } else {
+                $content .= $this->templater()->format('inputGroup', ['text' => $text]);
             }
-        } else {
-            $content .= $this->templater()->format('inputGroup', ['text' => $text]);
         }
         if (!empty($button)) {
             if (is_array($button)) {
