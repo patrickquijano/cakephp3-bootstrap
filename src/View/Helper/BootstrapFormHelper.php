@@ -127,16 +127,6 @@ class BootstrapFormHelper extends FormHelper {
 
     /**
      * @param string $fieldName
-     * @param string|null $text
-     * @param array $options
-     * @return string
-     */
-    public function label($fieldName, $text = null, array $options = []) {
-        return parent::label($fieldName, $text, $options);
-    }
-
-    /**
-     * @param string $fieldName
      * @param array $options
      * @return string
      */
@@ -152,6 +142,29 @@ class BootstrapFormHelper extends FormHelper {
             'labelOptions' => true
         ];
         $options = $this->_parseOptions($fieldName, $options);
+        switch ($options['type']) {
+            case 'checkbox':
+            case 'radio':
+                if (!isset($options['class'])) {
+                    $options['class'] = 'form-check-input';
+                }
+                break;
+            case 'text':
+            case 'email':
+            case 'number':
+            case 'search':
+            case 'textarea':
+            case 'select':
+                if (!isset($options['class'])) {
+                    $options['class'] = 'form-control';
+                }
+                break;
+            case 'submit':
+                if (!isset($options['class'])) {
+                    $options['class'] = 'btn btn-primary';
+                }
+                break;
+        }
         if (!empty($options['help'])) {
             $options['templateVars']['help'] = $this->templater()->format('help', ['text' => $options['help']]);
             unset($options['help']);
@@ -174,91 +187,6 @@ class BootstrapFormHelper extends FormHelper {
             $options['templateVars']['right'] = $this->_horizontal['right'];
         }
         return parent::control($fieldName, $options);
-    }
-
-    /**
-     * @param string $fieldName
-     * @param array $options
-     * @return string|array
-     */
-    public function checkbox($fieldName, array $options = []) {
-        if (!isset($options['class'])) {
-            $options['class'] = 'form-check-input';
-        }
-        return parent::checkbox($fieldName, $options);
-    }
-
-    /**
-     * @param string $fieldName
-     * @param array|\Traversable $options
-     * @param array $attributes
-     */
-    public function radio($fieldName, $options = [], array $attributes = []) {
-        if (!isset($options['class'])) {
-            $options['class'] = 'form-check-input';
-        }
-        return parent::radio($fieldName, $options, $attributes);
-    }
-
-    /**
-     *
-     * @param string $method
-     * @param array $params
-     * @return string
-     */
-    public function __call($method, $params) {
-        if (in_array($method, ['text', 'number', 'email', 'password', 'search'])) {
-            if (!isset($params[1]['class'])) {
-                $params[1]['class'] = 'form-control';
-            }
-        }
-        if (isset($params[1]['help'])) {
-            $params[1]['templateVars']['help'] = $this->templater()->format('help', ['text' => $params[1]['help']]);
-            unset($params[1]['help']);
-        }
-        return parent::__call($method, $params);
-    }
-
-    /**
-     * @param string $fieldName
-     * @param array $options
-     * @return string
-     */
-    public function textarea($fieldName, array $options = []) {
-        if (!isset($options['class'])) {
-            $options['class'] = 'form-control';
-        }
-        return parent::textarea($fieldName, $options);
-    }
-
-    /**
-     * @param string $fieldName
-     * @param array|\Traversable $options
-     * @param array $attributes
-     * @return string
-     */
-    public function submit($caption = null, array $options = []) {
-        if (!isset($options['class'])) {
-            $options['class'] = 'btn btn-primary';
-        }
-        if ($this->_template === 'horizontal') {
-            $options['templateVars']['left'] = $this->_horizontal['left'];
-            $options['templateVars']['right'] = $this->_horizontal['right'];
-        }
-        return parent::submit($caption, $options);
-    }
-
-    /**
-     * @param string $fieldName
-     * @param array|\Traversable $options
-     * @param array $attributes
-     * @return string
-     */
-    public function select($fieldName, $options = [], array $attributes = []) {
-        if (!isset($attributes['class'])) {
-            $attributes['class'] = 'form-control';
-        }
-        return parent::select($fieldName, $options, $attributes);
     }
 
     /**
