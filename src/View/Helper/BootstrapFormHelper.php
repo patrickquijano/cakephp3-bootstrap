@@ -34,6 +34,7 @@ class BootstrapFormHelper extends FormHelper {
             'inputContainer' => '<div class="form-group">{{content}}</div>',
             'inputContainerError' => '<div class="form-group">{{content}}{{error}}</div>',
             'formGroup' => '{{label}}{{preInputGroup}}{{prependInputGroup}}{{input}}{{appendInputGroup}}{{error}}{{postInputGroup}}{{help}}',
+            'nestingLabel' => '{{hidden}}{{input}}<label{{attrs}}>{{text}}</label>',
             'radioContainer' => '<div class="form-group"><div class="form-check">{{content}}</div></div>',
             'radioContainerError' => '<div class="form-group"><div class="form-check">{{content}}</div></div>',
             'radioFormGroup' => '{{input}}{{label}}{{error}}',
@@ -52,6 +53,7 @@ class BootstrapFormHelper extends FormHelper {
             'inputContainer' => '<div class="form-group row">{{content}}</div>',
             'inputContainerError' => '<div class="form-group row">{{content}}</div>',
             'formGroup' => '{{label}}<div class="{{right}}">{{preInputGroup}}{{prependInputGroup}}{{input}}{{appendInputGroup}}{{error}}{{postInputGroup}}{{help}}</div>',
+            'nestingLabel' => '{{hidden}}{{input}}<label{{attrs}}>{{text}}</label>',
             'radioContainer' => '<div class="form-group row"><div class="{{left}}"></div><div class="{{right}}"><div class="form-check">{{content}}</div></div></div>',
             'radioContainerError' => '<div class="form-group row"><div class="{{left}}"></div><div class="{{right}}"><div class="form-check">{{content}}</div></div></div>',
             'radioFormGroup' => '{{input}}{{label}}{{error}}',
@@ -73,11 +75,6 @@ class BootstrapFormHelper extends FormHelper {
     ];
 
     /**
-     * @var array
-     */
-    public $helpers = ['BootstrapHtml'];
-
-    /**
      * @param array $config
      * @return void
      */
@@ -87,6 +84,7 @@ class BootstrapFormHelper extends FormHelper {
             'templates' => $this->_templateSet[$this->_template],
         ];
         $this->setConfig($defaultConfig);
+        $this->helpers[] = 'BootstrapHtml';
     }
 
     /**
@@ -167,7 +165,11 @@ class BootstrapFormHelper extends FormHelper {
             unset($options['append']);
         }
         if ($this->_template === 'horizontal') {
-            $options['label']['class'] = $this->_horizontal['left'] . ' col-form-label';
+            if (!in_array($options['type'], ['checkbox', 'radio'])) {
+                $options['label']['class'] = $this->_horizontal['left'] . ' col-form-label';
+            } else {
+                $options['label']['class'] = 'form-check-label';
+            }
             $options['templateVars']['left'] = $this->_horizontal['left'];
             $options['templateVars']['right'] = $this->_horizontal['right'];
         }
