@@ -240,7 +240,6 @@ class BootstrapFormHelper extends FormHelper {
             $options['class'] = 'btn btn-primary';
         }
         if ($this->_template === 'horizontal') {
-            $options['label']['class'] = $this->_horizontal['left'] . ' col-form-label';
             $options['templateVars']['left'] = $this->_horizontal['left'];
             $options['templateVars']['right'] = $this->_horizontal['right'];
         }
@@ -269,7 +268,7 @@ class BootstrapFormHelper extends FormHelper {
     public function postLinkNavItem($title, $url = null, array $optionsLink = [], array $optionsList = []) {
         $optionsLink['class'] = 'nav-link';
         $optionsList['class'] = 'nav-item';
-        return $this->Html->tag($title, $this->postLink($title, $url, $optionsLink), $optionsList);
+        return $this->BootstrapHtml->tag($title, $this->postLink($title, $url, $optionsLink), $optionsList);
     }
 
     /**
