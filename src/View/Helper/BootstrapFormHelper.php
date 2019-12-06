@@ -153,6 +153,7 @@ class BootstrapFormHelper extends FormHelper {
             case 'email':
             case 'number':
             case 'search':
+            case 'password':
             case 'textarea':
             case 'select':
                 if (!isset($options['class'])) {
