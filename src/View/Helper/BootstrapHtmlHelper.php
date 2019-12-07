@@ -34,7 +34,7 @@ class BootstrapHtmlHelper extends HtmlHelper {
             unset($options['includeRedirect']);
         }
         if (isset($options['useRedirect']) && $options['useRedirect'] === true) {
-            $redirect = $this->getView()->getRequest()->getParam('redirect');
+            $redirect = $this->getView()->getRequest()->getQuery('redirect');
             if (!empty($redirect)) {
                 $url = urldecode($redirect);
             }
