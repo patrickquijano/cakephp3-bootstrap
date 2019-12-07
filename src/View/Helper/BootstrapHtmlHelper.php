@@ -8,6 +8,13 @@ use Cake\View\Helper\HtmlHelper;
 class BootstrapHtmlHelper extends HtmlHelper {
 
     /**
+     * @param array $config
+     */
+    public function initialize(array $config) {
+        $this->helpers = $this->helpers + ['Url'];
+    }
+
+    /**
      * @param string|array $title
      * @param string|array|null $url
      * @param array $options

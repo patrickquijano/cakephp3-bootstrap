@@ -4,9 +4,6 @@ namespace Bootstrap\View\Helper;
 
 use Cake\View\Helper\FormHelper;
 
-/**
- * @method \Bootstrap\View\Helper\BootstrapHtmlHelper $BootstrapHtml
- */
 class BootstrapFormHelper extends FormHelper {
 
     /**
@@ -84,7 +81,7 @@ class BootstrapFormHelper extends FormHelper {
             'templates' => $this->_templateSet[$this->_template],
         ];
         $this->setConfig($defaultConfig);
-        $this->helpers[] = 'BootstrapHtml';
+        $this->helpers = $this->helpers + ['Html'];
     }
 
     /**
@@ -202,7 +199,7 @@ class BootstrapFormHelper extends FormHelper {
     public function postLinkNavItem($title, $url = null, array $optionsLink = [], array $optionsList = []) {
         $optionsLink['class'] = 'nav-link';
         $optionsList['class'] = 'nav-item';
-        return $this->BootstrapHtml->tag($title, $this->postLink($title, $url, $optionsLink), $optionsList);
+        return $this->Html->tag($title, $this->postLink($title, $url, $optionsLink), $optionsList);
     }
 
     /**
