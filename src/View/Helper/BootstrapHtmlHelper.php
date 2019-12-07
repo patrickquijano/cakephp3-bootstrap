@@ -32,12 +32,14 @@ class BootstrapHtmlHelper extends HtmlHelper {
             } else {
                 $url['?']['redirect'] = $redirect;
             }
+            unset($options['redirectBack']);
         }
-        if (isset($options['redirectUrl']) && $options['redirectUrl'] === true) {
+        if (isset($options['useRedirect']) && $options['useRedirect'] === true) {
             $redirect = $this->getView()->getRequest()->getParam('redirect');
             if (!empty($redirect)) {
                 $url = urldecode($redirect);
             }
+            unset($options['useRedirect']);
         }
         if (!isset($options['data-toggle'])) {
             $options['data-toggle'] = 'tooltip';

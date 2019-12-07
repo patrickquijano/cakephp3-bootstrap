@@ -231,6 +231,7 @@ class BootstrapFormHelper extends FormHelper {
             } else {
                 $url['?']['redirect'] = $redirect;
             }
+            unset($options['redirectBack']);
         }
         if (!isset($options['data-toggle'])) {
             $options['data-toggle'] = 'tooltip';
