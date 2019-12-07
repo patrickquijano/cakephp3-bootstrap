@@ -61,12 +61,14 @@ class AppView extends View {
      * @return void
      */
     public function initialize() {
+        // other initialization here.
         $this->loadHelper('Bootstrap.Bootstrap');
         $this->loadHelper('Html', ['className' => 'Bootstrap.BootstrapHtml']);
         $this->loadHelper('Url', ['className' => 'Bootstrap.BootstrapHtml']);
         $this->loadHelper('Form', ['className' => 'Bootstrap.BootstrapForm']);
         $this->loadHelper('Paginator', ['className' => 'Bootstrap.BootstrapPaginator']);
         $this->loadHelper('Flash', ['className' => 'Bootstrap.BootstrapFlash']);
+        // other initialization here.
     }
 
 }
