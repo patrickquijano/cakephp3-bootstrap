@@ -2,7 +2,6 @@
 
 namespace Bootstrap\View\Helper;
 
-use Cake\Utility\Hash;
 use Cake\View\Helper\HtmlHelper;
 
 class BootstrapHtmlHelper extends HtmlHelper {
@@ -21,18 +20,18 @@ class BootstrapHtmlHelper extends HtmlHelper {
      * @return string
      */
     public function link($title, $url = null, array $options = []) {
-        if (isset($options['redirectBack']) && $options['redirectBack'] === true) {
+        if (isset($options['includeRedirect']) && $options['includeRedirect'] === true) {
             $redirect = urlencode($this->Url->build(null, ['escape' => false]));
             if (isset($url['?'])) {
                 if (!isset($url['?']['redirect'])) {
                     $url['?']['redirect'] = $redirect;
                 } else {
-                    $url['?'] = Hash::merge($url['?'], ['redirect' => $redirect]);
+                    $url['?'] += ['redirect' => $redirect];
                 }
             } else {
                 $url['?']['redirect'] = $redirect;
             }
-            unset($options['redirectBack']);
+            unset($options['includeRedirect']);
         }
         if (isset($options['useRedirect']) && $options['useRedirect'] === true) {
             $redirect = $this->getView()->getRequest()->getParam('redirect');

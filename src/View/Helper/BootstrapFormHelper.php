@@ -2,7 +2,6 @@
 
 namespace Bootstrap\View\Helper;
 
-use Cake\Utility\Hash;
 use Cake\View\Helper\FormHelper;
 
 class BootstrapFormHelper extends FormHelper {
@@ -82,7 +81,7 @@ class BootstrapFormHelper extends FormHelper {
             'templates' => $this->_templateSet[$this->_template],
         ];
         $this->setConfig($defaultConfig);
-        $this->helpers = $this->helpers + ['Html'];
+        $this->helpers = $this->helpers + ['Html', 'Url'];
     }
 
     /**
@@ -197,6 +196,32 @@ class BootstrapFormHelper extends FormHelper {
      * @param array $options
      * @return string
      */
+    public function postLink($title, $url = null, array $options = []) {
+        if (isset($options['includeRedirect']) && $options['includeRedirect'] === true) {
+            $redirect = urlencode($this->Url->build(null, ['escape' => false]));
+            if (isset($url['?'])) {
+                if (!isset($url['?']['redirect'])) {
+                    $url['?']['redirect'] = $redirect;
+                } else {
+                    $url['?'] += ['redirect' => $redirect];
+                }
+            } else {
+                $url['?']['redirect'] = $redirect;
+            }
+            unset($options['includeRedirect']);
+        }
+        if (!isset($options['data-toggle'])) {
+            $options['data-toggle'] = 'tooltip';
+        }
+        return parent::postLink($title, $url, $options);
+    }
+
+    /**
+     * @param string $title
+     * @param string|array|null $url
+     * @param array $options
+     * @return string
+     */
     public function postLinkNavItem($title, $url = null, array $optionsLink = [], array $optionsList = []) {
         $optionsLink['class'] = 'nav-link';
         $optionsList['class'] = 'nav-item';
@@ -211,32 +236,6 @@ class BootstrapFormHelper extends FormHelper {
      */
     public function postLinkNavDropdownItem($title, $url = null, array $options = []) {
         $options['class'] = 'dropdown-item';
-        return parent::postLink($title, $url, $options);
-    }
-
-    /**
-     * @param string $title
-     * @param string|array|null $url
-     * @param array $options
-     * @return string
-     */
-    public function postLink($title, $url = null, array $options = []) {
-        if (isset($options['redirectBack']) && $options['redirectBack'] === true) {
-            $redirect = urlencode($this->Url->build(null, ['escape' => false]));
-            if (isset($url['?'])) {
-                if (!isset($url['?']['redirect'])) {
-                    $url['?']['redirect'] = $redirect;
-                } else {
-                    $url['?'] = Hash::merge($url['?'], ['redirect' => $redirect]);
-                }
-            } else {
-                $url['?']['redirect'] = $redirect;
-            }
-            unset($options['redirectBack']);
-        }
-        if (!isset($options['data-toggle'])) {
-            $options['data-toggle'] = 'tooltip';
-        }
         return parent::postLink($title, $url, $options);
     }
 
