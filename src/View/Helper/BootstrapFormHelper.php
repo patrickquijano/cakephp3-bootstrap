@@ -2,6 +2,7 @@
 
 namespace Bootstrap\View\Helper;
 
+use Cake\Utility\Hash;
 use Cake\View\Helper\FormHelper;
 
 class BootstrapFormHelper extends FormHelper {
