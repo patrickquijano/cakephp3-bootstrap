@@ -48,6 +48,30 @@ class AppView extends View {
 }
 ```
 
+You can also load each helper:
+
+```
+namespace App\View;
+
+use Cake\View\View;
+
+class AppView extends View {
+
+    /**
+     * @return void
+     */
+    public function initialize() {
+        $this->loadHelper('Bootstrap.Bootstrap');
+        $this->loadHelper('Html', ['className' => 'Bootstrap.BootstrapHtml']);
+        $this->loadHelper('Url', ['className' => 'Bootstrap.BootstrapHtml']);
+        $this->loadHelper('Form', ['className' => 'Bootstrap.BootstrapForm']);
+        $this->loadHelper('Paginator', ['className' => 'Bootstrap.BootstrapPaginator']);
+        $this->loadHelper('Flash', ['className' => 'Bootstrap.BootstrapFlash']);
+    }
+
+}
+```
+
 Load the stylesheets and javascripts in your layouts using the helper:
 
 ```
