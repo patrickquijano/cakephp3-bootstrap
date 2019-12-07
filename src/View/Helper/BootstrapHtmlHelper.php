@@ -2,6 +2,7 @@
 
 namespace Bootstrap\View\Helper;
 
+use Cake\Utility\Hash;
 use Cake\View\Helper\HtmlHelper;
 
 class BootstrapHtmlHelper extends HtmlHelper {
@@ -56,8 +57,8 @@ class BootstrapHtmlHelper extends HtmlHelper {
     /**
      * @param string|array $title
      * @param string|array|null
-     * @param array $optionsList
      * @param array $optionsLink
+     * @param array $optionsList
      * @return string
      */
     public function linkNavItem($title, $url = null, array $optionsLink = [], array $optionsList = []) {
