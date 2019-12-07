@@ -219,24 +219,23 @@ class BootstrapFormHelper extends FormHelper {
      * @param array $options
      * @return string
      */
-    public function postLinkRedirect($title, $url = null, array $options = []) {
-        $redirect = urlencode($this->Url->build(null, ['escape' => false]));
-        if (isset($url['?'])) {
-            if (!isset($url['?']['redirect'])) {
-                $url['?']['redirect'] = $redirect;
+    public function postLink($title, $url = null, array $options = []) {
+        if (isset($options['redirectBack']) && $options['redirectBack'] === true) {
+            $redirect = urlencode($this->Url->build(null, ['escape' => false]));
+            if (isset($url['?'])) {
+                if (!isset($url['?']['redirect'])) {
+                    $url['?']['redirect'] = $redirect;
+                } else {
+                    $url['?'] = Hash::merge($url['?'], ['redirect' => $redirect]);
+                }
             } else {
-                $url['?'] = Hash::merge($url['?'], ['redirect' => $redirect]);
+                $url['?']['redirect'] = $redirect;
             }
-        } else {
-            $url['?']['redirect'] = $redirect;
         }
         if (!isset($options['data-toggle'])) {
             $options['data-toggle'] = 'tooltip';
         }
-        if (!isset($options['data-placement'])) {
-            $options['data-placement'] = 'top';
-        }
-        return $this->postLink($title, $url, $options);
+        return parent::postLink($title, $url, $options);
     }
 
     /**

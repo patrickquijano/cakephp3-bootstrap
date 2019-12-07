@@ -20,21 +20,29 @@ class BootstrapHtmlHelper extends HtmlHelper {
      * @param array $options
      * @return string
      */
-    public function linkRedirect($title, $url = null, array $options = []) {
-        $redirect = urlencode($this->Url->build(null, ['escape' => false]));
-        if (isset($url['?'])) {
-            if (!isset($url['?']['redirect'])) {
-                $url['?']['redirect'] = $redirect;
+    public function link($title, $url = null, array $options = []) {
+        if (isset($options['redirectBack']) && $options['redirectBack'] === true) {
+            $redirect = urlencode($this->Url->build(null, ['escape' => false]));
+            if (isset($url['?'])) {
+                if (!isset($url['?']['redirect'])) {
+                    $url['?']['redirect'] = $redirect;
+                } else {
+                    $url['?'] = Hash::merge($url['?'], ['redirect' => $redirect]);
+                }
             } else {
-                $url['?'] = Hash::merge($url['?'], ['redirect' => $redirect]);
+                $url['?']['redirect'] = $redirect;
             }
-        } else {
-            $url['?']['redirect'] = $redirect;
+        }
+        if (isset($options['redirectUrl']) && $options['redirectUrl'] === true) {
+            $redirect = $this->getView()->getRequest()->getParam('redirect');
+            if (!empty($redirect)) {
+                $url = urldecode($redirect);
+            }
         }
         if (!isset($options['data-toggle'])) {
             $options['data-toggle'] = 'tooltip';
         }
-        return $this->link($title, $url, $options);
+        return parent::link($title, $url, $options);
     }
 
     /**
@@ -76,7 +84,7 @@ class BootstrapHtmlHelper extends HtmlHelper {
             $url = '#';
         }
         $optionsLink['class'] = 'nav-link';
-        return $this->tag('li', $this->link($title, $url, $optionsLink), $optionsList);
+        return parent::tag('li', $this->link($title, $url, $optionsLink), $optionsList);
     }
 
     /**
@@ -120,7 +128,7 @@ class BootstrapHtmlHelper extends HtmlHelper {
         if (!isset($options['role'])) {
             $options['role'] = 'button';
         }
-        return $this->tag('button', $text, $options);
+        return parent::tag('button', $text, $options);
     }
 
     /**
@@ -129,7 +137,7 @@ class BootstrapHtmlHelper extends HtmlHelper {
      * @return string
      */
     public function i($text = null, array $options = []) {
-        return $this->tag('i', $text, $options);
+        return parent::tag('i', $text, $options);
     }
 
 }
