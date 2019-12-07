@@ -12,7 +12,6 @@ trait BootstrapViewTrait {
         $this->loadHelper('Html', ['className' => 'Bootstrap.BootstrapHtml']);
         $this->loadHelper('Form', ['className' => 'Bootstrap.BootstrapForm']);
         $this->loadHelper('Paginator', ['className' => 'Bootstrap.BootstrapPaginator']);
-        $this->loadHelper('Flash', ['className' => 'Bootstrap.BootstrapFlash']);
     }
 
 }
