@@ -176,10 +176,10 @@ class BootstrapFormHelper extends FormHelper {
             unset($options['append']);
         }
         if ($this->_template === 'horizontal') {
+            if (is_string($options['label'])) {
+                $options['label'] = ['text' => $options['label']];
+            }
             if (!in_array($options['type'], ['checkbox', 'radio'])) {
-                if (is_string($options['label'])) {
-                    $options['label'] = ['text' => $options['label']];
-                }
                 $options['label']['class'] = $this->_horizontal['left'] . ' col-form-label';
             } else {
                 $options['label']['class'] = 'form-check-label';
