@@ -2,12 +2,20 @@
 
 namespace Bootstrap\View\Helper;
 
+use Cake\Utility\Hash;
 use Cake\View\Helper\PaginatorHelper;
 
+/**
+ * Bootstrap Paginator Helper
+ */
 class BootstrapPaginatorHelper extends PaginatorHelper {
 
     /**
-     * @param array $config
+     * Constructor hook method.
+     *
+     * Implement this method to avoid having to overwrite the constructor and call parent.
+     *
+     * @param array $config The configuration settings provided to this helper.
      * @return void
      */
     public function initialize(array $config) {
@@ -28,8 +36,10 @@ class BootstrapPaginatorHelper extends PaginatorHelper {
     }
 
     /**
+     * Generates the Bootstrap pagination links.
+     *
      * @param array $options
-     * @return string
+     * @return string|null
      */
     public function paginate(array $options = array()) {
         $size = '';
@@ -42,16 +52,15 @@ class BootstrapPaginatorHelper extends PaginatorHelper {
             $size = ' justify-content-' . $options['alignment'];
             unset($options['alignment']);
         }
-        $options['first'] = 2;
-        $options['last'] = 2;
-        $options['modulus'] = 5;
+        $options = Hash::merge($options, [
+                'first' => $options['first'] ?? 2,
+                'last' => $options['last'] ?? 2,
+                'modulus' => $options['modulus'] ?? 5,
+        ]);
         $numbers = $this->numbers($options);
-        if ($numbers) {
+        if (!empty($numbers)) {
+            return $this->Html->tag('ul', __('{0}{1}{2}{3}{4}', $this->first(__('First')), $this->prev(__('Previous')), $numbers, $this->next(__('Next')), $this->last(__('Last'))), ['class' => 'pagination' . $size . $alignment]);
             $out = '<ul class="pagination' . $size . $alignment . '">';
-            $out .= $this->first(__('First')) . $this->prev(__('Previous'));
-            $out .= $numbers;
-            $out .= $this->next(__('Next')) . $this->last(__('Last'));
-            $out .= '</ul>';
             return $out;
         }
         return null;

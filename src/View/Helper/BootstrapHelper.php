@@ -3,14 +3,20 @@
 namespace Bootstrap\View\Helper;
 
 use Cake\Core\Configure;
+use Cake\Utility\Hash;
 use Cake\View\Helper;
+use Cake\View\Helper\HtmlHelper;
 
 /**
- * @property \Cake\View\Helper\HtmlHelper $Html
+ * Bootstrap Helper
+ *
+ * @property HtmlHelper $Html
  */
 class BootstrapHelper extends Helper {
 
     /**
+     * Default configuration
+     *
      * @var array
      */
     protected $_defaultConfig = [
@@ -25,42 +31,91 @@ class BootstrapHelper extends Helper {
     ];
 
     /**
+     * Helpers
+     *
      * @var array
      */
     public $helpers = ['Html'];
 
     /**
-     * @param array $options
-     * @return string|null
+     * Creates a link element for Bootstrap CSS stylesheet.
+     *
+     * ### Usage
+     *
+     * Add the stylesheet to view block "css":
+     *
+     * ```
+     * $this->Html->css(['block' => true]);
+     * ```
+     *
+     * Add the stylesheet to a custom block:
+     *
+     * ```
+     * $this->Html->css(['block' => 'layoutCss']);
+     * ```
+     *
+     * ### Options
+     *
+     * - `block` Set to true to append output to view block "css" or provide
+     *   custom block name.
+     * - `plugin` False value will prevent parsing path as a plugin
+     * - `rel` Defaults to 'stylesheet'. If equal to 'import' the stylesheet will be imported.
+     * - `fullBase` If true the URL will get a full address for the css file.
+     *
+     * @param array $options Array of options and HTML arguments.
+     * @return string|null CSS `<link />` or `<style />` tag, depending on the type of link.
      */
     public function css(array $options = []) {
         if (!isset($options['block'])) {
-            $options['block'] = false;
+            $options = Hash::merge($options, ['block' => false]);
         }
-        $options['once'] = true;
+        $options = Hash::merge($options, ['once' => true]);
         if (Configure::read('debug')) {
             return $this->Html->css('Bootstrap.bootstrap.min', $options);
         } else {
-            $options['integrity'] = $this->getConfig('css.integrity');
-            $options['crossorigin'] = 'anonymous';
+            $options = Hash::merge($options, [
+                    'integrity' => $this->getConfig('css.integrity'),
+                    'crossorigin' => 'anonymous',
+            ]);
             return $this->Html->css($this->getConfig('css.url'), $options);
         }
     }
 
     /**
-     * @param array $options
-     * @return string|null
+     * Returns Bootstrap `<script>` tag.
+     *
+     * ### Usage
+     *
+     * Add the script file to a custom block:
+     *
+     * ```
+     * $this->Html->script('styles.js', ['block' => 'bodyScript']);
+     * ```
+     *
+     * ### Options
+     *
+     * - `block` Set to true to append output to view block "script" or provide
+     *   custom block name.
+     * - `plugin` False value will prevent parsing path as a plugin
+     * - `fullBase` If true the url will get a full address for the script file.
+     *
+     * @param string|string[] $url String or array of javascript files to include
+     * @param array $options Array of options, and html attributes see above.
+     * @return string|null String of `<script />` tags or null if block is specified in options
+     *   or if $once is true and the file has been included before.
      */
     public function script(array $options = []) {
         if (!isset($options['block'])) {
-            $options['block'] = false;
+            $options = Hash::merge($options, ['block' => false]);
         }
-        $options['once'] = true;
+        $options = Hash::merge($options, ['once' => true]);
         if (Configure::read('debug')) {
             return $this->Html->script('Bootstrap.bootstrap.min', $options);
         } else {
-            $options['integrity'] = $this->getConfig('script.integrity');
-            $options['crossorigin'] = 'anonymous';
+            $options = Hash::merge($options, [
+                    'integrity' => $this->getConfig('script.integrity'),
+                    'crossorigin' => 'anonymous',
+            ]);
             return $this->Html->script($this->getConfig('script.url'), $options);
         }
     }
