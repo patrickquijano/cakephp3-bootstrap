@@ -57,9 +57,6 @@ use Cake\View\View;
 
 class AppView extends View {
 
-    /**
-     * @return void
-     */
     public function initialize() {
         // other initialization here.
         $this->loadHelper('Bootstrap.Bootstrap');
@@ -87,15 +84,11 @@ Modify the AppController to load the Flash component:
 ```
 class AppController extends Controller {
 
-    /**
-     * Initialization hook method.
-     *
-     * @return void
-     */
     public function initialize() {
         parent::initialize();
+        // other initialization here.
         $this->loadComponent('Flash', ['className' => 'Bootstrap.BootstrapFlash']);
-        // load other components here
+        // other initialization here.
     }
 
 }
