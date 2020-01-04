@@ -66,7 +66,6 @@ class AppView extends View {
         $this->loadHelper('Html', ['className' => 'Bootstrap.BootstrapHtml']);
         $this->loadHelper('Form', ['className' => 'Bootstrap.BootstrapForm']);
         $this->loadHelper('Paginator', ['className' => 'Bootstrap.BootstrapPaginator']);
-        $this->loadHelper('Flash', ['className' => 'Bootstrap.BootstrapFlash']);
         // other initialization here.
     }
 
@@ -77,7 +76,27 @@ Load the stylesheets and javascripts in your layouts using the helper:
 
 ```
 <?= $this->Bootstrap->css(); ?>
+// Your jQuery load script here
 <?= $this->Bootstrap->script(); ?>
 ```
 
-Make sure to load the jQuery before running the $this->Bootstrap->script()
+Make sure to load the jQuery before running the $this->Bootstrap->script().
+
+Modify the AppController to load the Flash component:
+
+```
+class AppController extends Controller {
+
+    /**
+     * Initialization hook method.
+     *
+     * @return void
+     */
+    public function initialize() {
+        parent::initialize();
+        $this->loadComponent('Flash', ['className' => 'Bootstrap.BootstrapFlash']);
+        // load other components here
+    }
+
+}
+```
