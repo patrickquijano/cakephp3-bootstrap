@@ -37,7 +37,7 @@ class BootstrapFormHelper extends FormHelper {
             'checkboxFormGroup' => '{{input}}{{label}}{{error}}',
             'error' => '<div class="invalid-feedback">{{content}}</div>',
             'inputContainer' => '<div class="form-group">{{content}}</div>',
-            'inputContainerError' => '<div class="form-group">{{content}}{{error}}</div>',
+            'inputContainerError' => '<div class="form-group">{{content}}</div>',
             'formGroup' => '{{label}}{{preInputGroup}}{{prependInputGroup}}{{input}}{{appendInputGroup}}{{error}}{{postInputGroup}}{{help}}',
             'nestingLabel' => '{{hidden}}{{input}}<label{{attrs}}>{{text}}</label>',
             'radioContainer' => '<div class="form-group"><div class="form-check">{{content}}</div></div>',
@@ -163,7 +163,7 @@ class BootstrapFormHelper extends FormHelper {
      */
     public function error($field, $text = null, array $options = []) {
         if (!isset($options['escape'])) {
-            $options['escape'] = false;
+            $options = Hash::merge($options, ['escape' => false]);
         }
         return parent::error($field, $text, $options);
     }
@@ -256,8 +256,10 @@ class BootstrapFormHelper extends FormHelper {
             } else {
                 $options = Hash::merge($options, ['label' => ['class' => 'form-check-label']]);
             }
-            $options = Hash::merge($options, ['templateVars' => ['left' => $this->_horizontal['left']]]);
-            $options = Hash::merge($options, ['templateVars' => ['right' => $this->_horizontal['right']]]);
+            $options = Hash::merge($options, ['templateVars' => [
+                        'left' => $this->_horizontal['left'],
+                        'right' => $this->_horizontal['right'],
+            ]]);
         }
         return parent::control($fieldName, $options);
     }
