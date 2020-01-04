@@ -199,7 +199,7 @@ class BootstrapFormHelper extends FormHelper {
      * @return string Completed form widget.
      */
     public function control($fieldName, array $options = []) {
-        $options = Hash::merge($options, [
+        $options = Hash::merge([
                 'type' => null,
                 'label' => null,
                 'error' => null,
@@ -208,14 +208,13 @@ class BootstrapFormHelper extends FormHelper {
                 'templates' => [],
                 'templateVars' => [],
                 'labelOptions' => true
-        ]);
+                ], $options);
         $options = $this->_parseOptions($fieldName, $options);
+        $class = '';
         switch ($options['type']) {
             case 'checkbox':
             case 'radio':
-                if (!isset($options['class'])) {
-                    $options = Hash::merge($options, ['class' => 'form-check-input']);
-                }
+                $class = 'form-check-input';
                 break;
             case 'text':
             case 'email':
@@ -224,16 +223,17 @@ class BootstrapFormHelper extends FormHelper {
             case 'password':
             case 'textarea':
             case 'select':
-                if (!isset($options['class'])) {
-                    $options = Hash::merge($options, ['class' => 'form-control']);
-                    $options['class'] = 'form-control';
-                }
+                $class = 'form-control';
                 break;
             case 'submit':
-                if (!isset($options['class'])) {
-                    $options = Hash::merge($options, ['class' => 'btn btn-primary']);
-                }
+                $class = 'btn btn-primary';
                 break;
+        }
+        if (isset($options['class'])) {
+            $class .= ' ' . $options['class'];
+        }
+        if (!empty($class)) {
+            $options = Hash::merge($options, ['class' => $class]);
         }
         if (!empty($options['help'])) {
             $options = Hash::merge($options, ['templateVars' => ['help' => $this->templater()->format('help', ['text' => $options['help']])]]);
