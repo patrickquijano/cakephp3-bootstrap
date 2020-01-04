@@ -9,7 +9,7 @@ use Cake\View\View;
 class BootstrapPaginatorHelperTest extends TestCase {
 
     /**
-     * @var \Bootstrap\View\Helper\BootstrapPaginatorHelper
+     * @var BootstrapPaginatorHelper
      */
     public $BootstrapPaginator;
 

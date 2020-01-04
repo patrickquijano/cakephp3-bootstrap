@@ -9,7 +9,7 @@ use Cake\View\View;
 class BootstrapHtmlHelperTest extends TestCase {
 
     /**
-     * @var \Bootstrap\View\Helper\BootstrapHtmlHelper
+     * @var BootstrapHtmlHelper
      */
     public $BootstrapHtml;
 
