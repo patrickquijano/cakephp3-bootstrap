@@ -10,7 +10,7 @@ The recommended way to install composer packages is:
 composer require patrickquijano/cakephp3-bootstrap4:dev-master
 ```
 
-Load the plugin by using the bake command:
+Load the plugin by using the cake command:
 
 ```
 $ bin/cake plugin load Bootstrap
