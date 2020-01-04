@@ -2,9 +2,14 @@
 
 namespace Bootstrap\View;
 
+/**
+ * Bootstrap Trait
+ */
 trait BootstrapViewTrait {
 
     /**
+     * Initializes the helpers for this plugin.
+     * 
      * @return void
      */
     public function initializeBootstrap() {
