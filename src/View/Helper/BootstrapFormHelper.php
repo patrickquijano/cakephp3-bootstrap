@@ -32,17 +32,18 @@ class BootstrapFormHelper extends FormHelper {
             'help' => '<small class="form-text text-muted">{{text}}</small>',
         ],
         'default' => [
-            'checkboxContainer' => '<div class="form-group"><div class="form-check">{{content}}</div></div>',
-            'checkboxContainerError' => '<div class="form-group"><div class="form-check">{{content}}</div></div>',
-            'checkboxFormGroup' => '{{input}}{{label}}{{error}}',
+            'checkboxContainer' => '<div class="form-group">{{content}}</div>',
+            'checkboxContainerError' => '<div class="form-group">{{content}}</div>',
+            'checkboxFormGroup' => '{{label}}{{error}}',
+            'checkboxWrapper' => '{{label}}',
             'error' => '<div class="invalid-feedback">{{content}}</div>',
             'inputContainer' => '<div class="form-group">{{content}}</div>',
             'inputContainerError' => '<div class="form-group">{{content}}</div>',
             'formGroup' => '{{label}}{{preInputGroup}}{{prependInputGroup}}{{input}}{{appendInputGroup}}{{error}}{{postInputGroup}}{{help}}',
-            'nestingLabel' => '{{hidden}}{{input}}<label{{attrs}}>{{text}}</label>',
-            'radioContainer' => '<div class="form-group"><div class="form-check">{{content}}</div></div>',
-            'radioContainerError' => '<div class="form-group"><div class="form-check">{{content}}</div></div>',
-            'radioFormGroup' => '{{input}}{{label}}{{error}}',
+            'nestingLabel' => '<div class="form-check{{checkInline}}">{{input}}<label class="form-check-label"{{attrs}}>{{text}}</label></div>',
+            'radioContainer' => '<div class="form-group">{{content}}</div>',
+            'radioContainerError' => '<div class="form-group">{{content}}</div>',
+            'radioFormGroup' => '{{input}}{{error}}',
             'submitContainer' => '{{content}}',
             'help' => '<small class="form-text text-muted">{{text}}</small>',
             'preInputGroup' => '<div class="input-group{{inputGroupSize}}">',
@@ -51,17 +52,18 @@ class BootstrapFormHelper extends FormHelper {
             'inputGroupContainer' => '<div class="{{inputGroupClass}}">{{content}}</div>',
         ],
         'horizontal' => [
-            'checkboxContainer' => '<div class="form-group row"><div class="{{left}}"></div><div class="{{right}}"><div class="form-check">{{content}}</div></div></div>',
-            'checkboxContainerError' => '<div class="form-group row"><div class="{{left}}"></div><div class="{{right}}"><div class="form-check">{{content}}</div></div></div>',
+            'checkboxContainer' => '<div class="form-group row"><div class="{{left}}"></div><div class="{{right}}">{{content}}</div></div>',
+            'checkboxContainerError' => '<div class="form-group row"><div class="{{left}}"></div><div class="{{right}}">{{content}}</div></div>',
             'checkboxFormGroup' => '{{input}}{{label}}{{error}}',
+            'checkboxWrapper' => '{{label}}',
             'error' => '<div class="invalid-tooltip">{{content}}</div>',
             'inputContainer' => '<div class="form-group row">{{content}}</div>',
             'inputContainerError' => '<div class="form-group row">{{content}}</div>',
             'formGroup' => '{{label}}<div class="{{right}}">{{preInputGroup}}{{prependInputGroup}}{{input}}{{appendInputGroup}}{{error}}{{postInputGroup}}{{help}}</div>',
-            'nestingLabel' => '{{hidden}}{{input}}<label{{attrs}}>{{text}}</label>',
-            'radioContainer' => '<div class="form-group row"><div class="{{left}}"></div><div class="{{right}}"><div class="form-check">{{content}}</div></div></div>',
-            'radioContainerError' => '<div class="form-group row"><div class="{{left}}"></div><div class="{{right}}"><div class="form-check">{{content}}</div></div></div>',
-            'radioFormGroup' => '{{input}}{{label}}{{error}}',
+            'nestingLabel' => '<div class="form-check{{checkInline}}">{{input}}<label class="form-check-label"{{attrs}}>{{text}}</label></div>',
+            'radioContainer' => '<div class="form-group row"><div class="{{left}}"></div><div class="{{right}}">{{content}}</div></div>',
+            'radioContainerError' => '<div class="form-group row"><div class="{{left}}"></div><div class="{{right}}">{{content}}</div></div>',
+            'radioFormGroup' => '{{input}}{{error}}',
             'submitContainer' => '<div class="form-group row"><div class="{{left}}"></div><div class="{{right}}">{{content}}</div></div>',
             'help' => '<small class="form-text text-muted">{{text}}</small>',
             'preInputGroup' => '<div class="input-group{{inputGroupSize}}">',
@@ -223,8 +225,14 @@ class BootstrapFormHelper extends FormHelper {
             case 'password':
                 $options = Hash::merge($options, ['value' => '']);
             case 'textarea':
-            case 'select':
                 $class = 'form-control';
+                break;
+            case 'select':
+                if (isset($options['multiple']) && $options['multiple'] === 'checkbox') {
+                    $class = 'form-check-input';
+                } else {
+                    $class = 'form-control';
+                }
                 break;
             case 'submit':
                 $class = 'btn btn-primary';
@@ -235,6 +243,12 @@ class BootstrapFormHelper extends FormHelper {
         }
         if (!empty($class)) {
             $options = Hash::merge($options, ['class' => $class]);
+        }
+        if (isset($options['checkInline'])) {
+            if ($options['checkInline']) {
+                $options = Hash::merge($options, ['templateVars' => ['checkInline' => ' form-check-inline']]);
+            }
+            unset($options['formCheckInline']);
         }
         if (!empty($options['help'])) {
             $options = Hash::merge($options, ['templateVars' => ['help' => $this->templater()->format('help', ['text' => $options['help']])]]);
@@ -249,13 +263,11 @@ class BootstrapFormHelper extends FormHelper {
             unset($options['append']);
         }
         if ($this->_template === 'horizontal') {
-            if (is_string($options['label'])) {
+            if (isset($options) && is_string($options['label'])) {
                 $options = Hash::merge($options, ['label' => ['text' => $options['label']]]);
             }
             if (!in_array($options['type'], ['checkbox', 'radio'])) {
                 $options = Hash::merge($options, ['label' => ['class' => $this->_horizontal['left'] . ' col-form-label']]);
-            } else {
-                $options = Hash::merge($options, ['label' => ['class' => 'form-check-label']]);
             }
             $options = Hash::merge($options, ['templateVars' => [
                         'left' => $this->_horizontal['left'],
