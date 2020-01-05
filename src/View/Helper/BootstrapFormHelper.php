@@ -221,6 +221,7 @@ class BootstrapFormHelper extends FormHelper {
             case 'number':
             case 'search':
             case 'password':
+                $options = Hash::merge($options, ['value' => '']);
             case 'textarea':
             case 'select':
                 $class = 'form-control';
