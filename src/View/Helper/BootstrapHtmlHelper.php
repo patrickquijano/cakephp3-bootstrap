@@ -180,14 +180,6 @@ class BootstrapHtmlHelper extends HtmlHelper {
         if (!isset($options['type'])) {
             $options = Hash::merge($options, ['type' => 'button']);
         }
-        $class = 'btn btn-primary';
-        if (isset($options['class'])) {
-            $class .= ' ' . $options['class'];
-        }
-        $options = Hash::merge($options, ['class' => $class]);
-        if (!isset($options['role'])) {
-            $options = Hash::merge($options, ['role' => 'button']);
-        }
         return parent::tag('button', $text, $options);
     }
 
