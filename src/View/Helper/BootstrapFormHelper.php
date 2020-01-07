@@ -222,10 +222,12 @@ class BootstrapFormHelper extends FormHelper {
             case 'email':
             case 'number':
             case 'search':
-            case 'password':
-                $options = Hash::merge($options, ['value' => '']);
             case 'textarea':
                 $class = 'form-control';
+                break;
+            case 'password':
+                $class = 'form-control';
+                $options = Hash::merge($options, ['value' => '']);
                 break;
             case 'select':
                 if (isset($options['multiple']) && $options['multiple'] === 'checkbox') {
