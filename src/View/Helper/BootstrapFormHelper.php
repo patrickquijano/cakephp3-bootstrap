@@ -263,7 +263,11 @@ class BootstrapFormHelper extends FormHelper {
                 break;
         }
         if (isset($options['class'])) {
-            $class .= ' ' . $options['class'];
+            if ($options['type'] !== 'submit') {
+                $class .= ' ' . $options['class'];
+            } else {
+                $class = $options['class'];
+            }
         }
         if (!empty($class)) {
             $options = Hash::merge($options, ['class' => $class]);
