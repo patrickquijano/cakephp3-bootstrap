@@ -71,6 +71,25 @@ class BootstrapFormHelper extends FormHelper {
             'inputGroup' => '<span class="input-group-text">{{text}}</span>',
             'inputGroupContainer' => '<div class="{{inputGroupClass}}">{{content}}</div>',
         ],
+        'inline' => [
+            'checkboxContainer' => '<div class="form-group">{{content}}</div>',
+            'checkboxContainerError' => '<div class="form-group">{{content}}</div>',
+            'checkboxFormGroup' => '{{label}}{{error}}',
+            'checkboxWrapper' => '{{label}}',
+            'error' => '<div class="invalid-feedback">{{content}}</div>',
+            'inputContainer' => '<div class="form-group">{{content}}</div>',
+            'inputContainerError' => '<div class="form-group">{{content}}</div>',
+            'formGroup' => '{{label}}{{preInputGroup}}{{prependInputGroup}}{{input}}{{appendInputGroup}}{{error}}{{postInputGroup}}',
+            'nestingLabel' => '<div class="form-check">{{input}}<label class="form-check-label"{{attrs}}>{{text}}</label></div>',
+            'radioContainer' => '<div class="form-group">{{content}}</div>',
+            'radioContainerError' => '<div class="form-group">{{content}}</div>',
+            'radioFormGroup' => '{{input}}{{error}}',
+            'submitContainer' => '{{content}}',
+            'preInputGroup' => '<div class="input-group{{inputGroupSize}}">',
+            'postInputGroup' => '</div>',
+            'inputGroup' => '<span class="input-group-text">{{text}}</span>',
+            'inputGroupContainer' => '<div class="{{inputGroupClass}}">{{content}}</div>',
+        ],
     ];
 
     /**
@@ -134,6 +153,9 @@ class BootstrapFormHelper extends FormHelper {
         if (isset($options['template'])) {
             $this->_template = $options['template'];
             $this->setTemplates($this->_templateSet[$this->_template]);
+            if ($options['template'] === 'inline') {
+                $options = Hash::merge($options, ['class' => 'form-inline']);
+            }
             unset($options['template']);
         }
         if (isset($options['left'])) {
