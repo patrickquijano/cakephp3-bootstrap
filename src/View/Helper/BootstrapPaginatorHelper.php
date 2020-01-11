@@ -34,9 +34,9 @@ class BootstrapPaginatorHelper extends PaginatorHelper {
             'number' => '<li class="page-item"><a class="page-link" href="{{url}}">{{text}}</a></li>',
             'current' => '<li class="page-item active"><span class="page-link">{{text}}</span> <span class="sr-only">(current)</span></li>',
             'ellipsis' => '<li class="page-item disabled"><span class="page-link">&hellip;</span></li>',
-            'sort' => '<a href="{{url}}"{{class}}>{{text}}</a>',
-            'sortAsc' => '<a href="{{url}}"{{class}}>{{text}}</a>',
-            'sortDesc' => '<a href="{{url}}"{{class}}>{{text}}</a>',
+            'sort' => '<a href="{{url}}"{{class}}>{{text}}{{icon}}</a>',
+            'sortAsc' => '<a href="{{url}}"{{class}}>{{text}}{{iconAsc}}</a>',
+            'sortDesc' => '<a href="{{url}}"{{class}}>{{text}}{{iconDesc}}</a>',
         ],
     ];
 
@@ -64,6 +64,9 @@ class BootstrapPaginatorHelper extends PaginatorHelper {
      * - `direction` The default direction to use when this link isn't active.
      * - `lock` Lock direction. Will only use the default direction then, defaults to false.
      * - `class` The class for the link.
+     * - `icon` The icon for the default link. Can be a text or HTML code.
+     * - `iconAsc` The icon for the ascending sort. Can be a text or HTML tag.
+     * - `iconDesc` The icon for the descending sort. Can be a text or HTML tag.
      *
      * @param string $key The name of the key that the recordset should be sorted.
      * @param string|array|null $title Title for the link. If $title is null $key will be used
@@ -122,8 +125,16 @@ class BootstrapPaginatorHelper extends PaginatorHelper {
             'url' => $this->generateUrl($url, $options['model']),
         ];
         if (isset($options['class'])) {
-            $class = __(' class="{0}"', $options['class']);
-            $vars = Hash::merge($vars, ['class' => $class]);
+            $vars = Hash::merge($vars, ['class' => __(' class="{0}"', $options['class'])]);
+        }
+        if (isset($options['icon'])) {
+            $vars = Hash::merge($vars, ['icon' => $options['icon']]);
+        }
+        if (isset($options['iconAsc'])) {
+            $vars = Hash::merge($vars, ['iconAsc' => $options['iconAsc']]);
+        }
+        if (isset($options['iconDesc'])) {
+            $vars = Hash::merge($vars, ['iconAsc' => $options['iconDesc']]);
         }
         return $this->templater()->format($template, $vars);
     }
