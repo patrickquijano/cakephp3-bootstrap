@@ -128,7 +128,6 @@ class BootstrapPaginatorHelper extends PaginatorHelper {
             'text' => $options['escape'] ? h($title) : $title,
             'url' => $this->generateUrl($url, $options['model']),
         ];
-        debug($template);
         if (isset($options['class'])) {
             $vars = Hash::merge($vars, ['class' => __(' class="{0}"', $options['class'])]);
             unset($options['class']);
