@@ -77,7 +77,11 @@ class BootstrapPaginatorHelper extends PaginatorHelper {
      *  key the returned link will sort by 'desc'.
      */
     public function sort($key, $title = null, array $options = array()) {
-        $options += ['url' => [], 'model' => null, 'escape' => true];
+        $options = Hash::merge($options, [
+                'url' => [],
+                'model' => null,
+                'escape' => true,
+        ]);
         $url = $options['url'];
         unset($options['url']);
         if (empty($title)) {
@@ -124,17 +128,22 @@ class BootstrapPaginatorHelper extends PaginatorHelper {
             'text' => $options['escape'] ? h($title) : $title,
             'url' => $this->generateUrl($url, $options['model']),
         ];
+        debug($template);
         if (isset($options['class'])) {
             $vars = Hash::merge($vars, ['class' => __(' class="{0}"', $options['class'])]);
+            unset($options['class']);
         }
         if (isset($options['icon'])) {
             $vars = Hash::merge($vars, ['icon' => $options['icon']]);
+            unset($options['icon']);
         }
         if (isset($options['iconAsc'])) {
             $vars = Hash::merge($vars, ['iconAsc' => $options['iconAsc']]);
+            unset($options['iconAsc']);
         }
         if (isset($options['iconDesc'])) {
-            $vars = Hash::merge($vars, ['iconAsc' => $options['iconDesc']]);
+            $vars = Hash::merge($vars, ['iconDesc' => $options['iconDesc']]);
+            unset($options['iconDesc']);
         }
         return $this->templater()->format($template, $vars);
     }
