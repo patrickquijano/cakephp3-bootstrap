@@ -398,9 +398,6 @@ class BootstrapFormHelper extends FormHelper {
      * @return string
      */
     protected function _buildInputGroup($inputGroupType, array $options = []) {
-        $class = null;
-        $text = $options[$inputGroupType];
-        $button = null;
         if (is_array($options[$inputGroupType])) {
             if (isset($options[$inputGroupType]['class'])) {
                 $class = ' ' . $options[$inputGroupType]['class'];
@@ -411,6 +408,10 @@ class BootstrapFormHelper extends FormHelper {
             if (isset($options[$inputGroupType]['button'])) {
                 $button = $options[$inputGroupType]['button'];
             }
+        } else {
+            $class = null;
+            $text = $options[$inputGroupType];
+            $button = null;
         }
         $inputGroupSize = $class !== null ? ['inputGroupSize' => $class] : [];
         $options = Hash::merge($options, ['templateVars' => [
