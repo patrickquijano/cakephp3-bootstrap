@@ -401,12 +401,18 @@ class BootstrapFormHelper extends FormHelper {
         if (is_array($options[$inputGroupType])) {
             if (isset($options[$inputGroupType]['class'])) {
                 $class = ' ' . $options[$inputGroupType]['class'];
+            } else {
+                $class = null;
             }
             if (isset($options[$inputGroupType]['text'])) {
                 $text = $options[$inputGroupType]['text'];
+            } else {
+                $text = $options[$inputGroupType];
             }
             if (isset($options[$inputGroupType]['button'])) {
                 $button = $options[$inputGroupType]['button'];
+            } else {
+                $button = null;
             }
         } else {
             $class = null;
