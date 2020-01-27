@@ -407,7 +407,7 @@ class BootstrapFormHelper extends FormHelper {
             if (isset($options[$inputGroupType]['text'])) {
                 $text = $options[$inputGroupType]['text'];
             } else {
-                $text = $options[$inputGroupType];
+                $text = null;
             }
             if (isset($options[$inputGroupType]['button'])) {
                 $button = $options[$inputGroupType]['button'];
