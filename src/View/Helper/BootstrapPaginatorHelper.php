@@ -174,7 +174,7 @@ class BootstrapPaginatorHelper extends PaginatorHelper {
             $firstLabel = $options['firstLabel'];
             unset($options['firstLabel']);
         }
-        $lastLabel = __('Next');
+        $lastLabel = __('Last');
         if (isset($options['lastLabel'])) {
             $lastLabel = $options['lastLabel'];
             unset($options['lastLabel']);
