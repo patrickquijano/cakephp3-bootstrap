@@ -31,7 +31,7 @@ class BootstrapPaginatorHelper extends PaginatorHelper {
             'prevDisabled' => '<li class="page-item disabled"><span class="page-link" aria-hidden="true">{{text}}</span></a></li>',
             'first' => '<li class="page-item"><a class="page-link" aria-label="First" href="{{url}}">{{text}}</a></li>',
             'last' => '<li class="page-item"><a class="page-link" aria-label="Last" href="{{url}}">{{text}}</a></li>',
-            'number' => '<li class="page-item"><a class="page-link" href="{{url}}">{{text}}</a></li>',
+            'number' => '<li class="page-item d-none d-sm-block"><a class="page-link" href="{{url}}">{{text}}</a></li>',
             'current' => '<li class="page-item active"><span class="page-link">{{text}}</span> <span class="sr-only">(current)</span></li>',
             'ellipsis' => '<li class="page-item disabled"><span class="page-link">&hellip;</span></li>',
             'sort' => '<a href="{{url}}"{{class}}>{{text}}{{icon}}</a>',
@@ -76,7 +76,7 @@ class BootstrapPaginatorHelper extends PaginatorHelper {
      * @return string A link sorting default by 'asc'. If the resultset is sorted 'asc' by the specified
      *  key the returned link will sort by 'desc'.
      */
-    public function sort($key, $title = null, array $options = array()) {
+    public function sort($key, $title = null, array $options = []) {
         $options = Hash::merge($options, [
                 'url' => [],
                 'model' => null,
@@ -153,7 +153,7 @@ class BootstrapPaginatorHelper extends PaginatorHelper {
      * @param array $options
      * @return string|null
      */
-    public function paginate(array $options = array()) {
+    public function paginate(array $options = []) {
         $size = '';
         if (isset($options['size'])) {
             $size = ' pagination-' . $options['size'];
@@ -164,11 +164,6 @@ class BootstrapPaginatorHelper extends PaginatorHelper {
             $size = ' justify-content-' . $options['alignment'];
             unset($options['alignment']);
         }
-        $options = Hash::merge($options, [
-                'first' => $options['first'] ?? 2,
-                'last' => $options['last'] ?? 2,
-                'modulus' => $options['modulus'] ?? 5,
-        ]);
         $firstLabel = __('First');
         if (isset($options['firstLabel'])) {
             $firstLabel = $options['firstLabel'];
